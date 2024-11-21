@@ -31,11 +31,12 @@ func init() {
 
 	GlobalConfig = config
 
-	fmt.Println("\033[34m================ Loaded Configuration ================\033[0m")
-	fmt.Printf("\033[32mPort:           \033[0m%d\n", GlobalConfig.Port)
-	fmt.Printf("\033[32mGRPC Task Host:     \033[0m%s\n", GlobalConfig.GrpcTaskHost)
-	fmt.Printf("\033[32mGRPC Task Port:     \033[0m%d\n", GlobalConfig.GrpcTaskPort)
-	fmt.Println("\033[34m=====================================================\033[0m")
+	fmt.Println("\033[34m================= Loaded Configuration =================\033[0m")
+	fmt.Printf("\033[36mPort:            \033[32m%d\033[0m\n", GlobalConfig.Port)
+	fmt.Printf("\033[36mGRPC Task Host:  \033[32m%s\033[0m\n", GlobalConfig.GrpcTaskHost)
+	fmt.Printf("\033[36mGRPC Task Port:  \033[32m%d\033[0m\n", GlobalConfig.GrpcTaskPort)
+	fmt.Println("\033[34m========================================================\033[0m")
+
 	return
 }
 
