@@ -5,12 +5,12 @@ go 1.22.7
 toolchain go1.22.9
 
 require (
-	github.com/felixge/httpsnoop v1.0.4
 	github.com/gin-gonic/gin v1.10.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.23.0
-	github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20241121034152-304cc2f6e501
+	github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20241122085500-7d9689cca1b1
 	github.com/spf13/viper v1.19.0
 	google.golang.org/grpc v1.68.0
+	google.golang.org/protobuf v1.35.2
 )
 
 require (
@@ -54,7 +54,6 @@ require (
 	golang.org/x/text v0.19.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20241021214115-324edc3d5d38 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20241021214115-324edc3d5d38 // indirect
-	google.golang.org/protobuf v1.35.2 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
