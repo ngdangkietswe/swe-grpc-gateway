@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/spf13/viper"
 	"log"
+	"time"
 )
 
 var (
@@ -37,15 +38,21 @@ func init() {
 	fmt.Printf("\033[36mGRPC Task Port:  \033[32m%d\033[0m\n", GlobalConfig.GrpcTaskPort)
 	fmt.Printf("\033[36mGRPC Auth Host:  \033[32m%s\033[0m\n", GlobalConfig.GrpcAuthHost)
 	fmt.Printf("\033[36mGRPC Auth Port:  \033[32m%d\033[0m\n", GlobalConfig.GrpcAuthPort)
+	fmt.Printf("\033[36mJWT Secret:      \033[32m%s\033[0m\n", GlobalConfig.JwtSecret)
+	fmt.Printf("\033[36mJWT Issuer:      \033[32m%s\033[0m\n", GlobalConfig.JwtIssuer)
+	fmt.Printf("\033[36mJWT Expiration:  \033[32m%s\033[0m\n", GlobalConfig.JwtExp)
 	fmt.Println("\033[34m========================================================\033[0m")
 
 	return
 }
 
 type Configuration struct {
-	Port         int    `mapstructure:"PORT"`
-	GrpcTaskHost string `mapstructure:"GRPC_TASK_HOST"`
-	GrpcTaskPort int    `mapstructure:"GRPC_TASK_PORT"`
-	GrpcAuthHost string `mapstructure:"GRPC_AUTH_HOST"`
-	GrpcAuthPort int    `mapstructure:"GRPC_AUTH_PORT"`
+	Port         int           `mapstructure:"PORT"`
+	GrpcTaskHost string        `mapstructure:"GRPC_TASK_HOST"`
+	GrpcTaskPort int           `mapstructure:"GRPC_TASK_PORT"`
+	GrpcAuthHost string        `mapstructure:"GRPC_AUTH_HOST"`
+	GrpcAuthPort int           `mapstructure:"GRPC_AUTH_PORT"`
+	JwtSecret    string        `mapstructure:"JWT_SECRET"`
+	JwtIssuer    string        `mapstructure:"JWT_ISSUER"`
+	JwtExp       time.Duration `mapstructure:"JWT_EXPIRATION"`
 }

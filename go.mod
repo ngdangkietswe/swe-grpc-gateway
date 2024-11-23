@@ -6,6 +6,7 @@ toolchain go1.22.9
 
 require (
 	github.com/gin-gonic/gin v1.10.0
+	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.23.0
 	github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20241122085500-7d9689cca1b1
 	github.com/spf13/viper v1.19.0
