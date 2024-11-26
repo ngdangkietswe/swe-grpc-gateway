@@ -250,6 +250,9 @@
     "authEnableOrDisable2FAResp": {
       "type": "object",
       "properties": {
+        "success": {
+          "type": "boolean"
+        },
         "error": {
           "$ref": "#/definitions/commonError"
         },
@@ -275,9 +278,20 @@
     "authLoginResp": {
       "type": "object",
       "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "$ref": "#/definitions/authLoginRespData"
+        },
         "error": {
           "$ref": "#/definitions/commonError"
-        },
+        }
+      }
+    },
+    "authLoginRespData": {
+      "type": "object",
+      "properties": {
         "token_type": {
           "type": "string"
         },
