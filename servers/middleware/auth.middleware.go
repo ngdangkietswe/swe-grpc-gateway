@@ -13,6 +13,7 @@ type AuthMiddleware struct {
 // ShouldSkip is a middleware function that checks if the request should skip the auth middleware
 func (a AuthMiddleware) ShouldSkip(ctx *gin.Context) bool {
 	publicRoutes := []string{
+		"/swagger",
 		"/api/v1/auth/login",
 		"/api/v1/auth/register",
 	}

@@ -64,8 +64,8 @@ github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd h1:TRLaZ9cD/w
 github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd/go.mod h1:6dJC0mAP4ikYIbvyc7fijjWJddQyLn8Ig3JB5CqoB9Q=
 github.com/modern-go/reflect2 v1.0.2 h1:xBagoLtFs94CBntxluKeaWgTMpvLxC4ur3nMaC9Gz0M=
 github.com/modern-go/reflect2 v1.0.2/go.mod h1:yWuevngMOJpCy52FWWMvUC8ws7m/LJsjYzDa0/r8luk=
-github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20241122085500-7d9689cca1b1 h1:jUYcI/D9HbtgtsaiSrU1qLfoJV//q9rSJkkT/2W8IA4=
-github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20241122085500-7d9689cca1b1/go.mod h1:BJM2Kr7cIUwRc8lpRIlIC1T4diAlfr8ryVOV+NT5A5U=
+github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20241126023242-2e1568297bed h1:KbQ1chraNAC50rwqNv6Rl+hZjM+LFGegTAjMHBm9Hzs=
+github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20241126023242-2e1568297bed/go.mod h1:BJM2Kr7cIUwRc8lpRIlIC1T4diAlfr8ryVOV+NT5A5U=
 github.com/pelletier/go-toml/v2 v2.2.2 h1:aYUidT7k73Pcl9nb2gScu7NSrKCSHIDE89b3+6Wq+LM=
 github.com/pelletier/go-toml/v2 v2.2.2/go.mod h1:1t835xjRzz80PqgE6HHgN2JOsmgYu/h4qDAS4n929Rs=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=

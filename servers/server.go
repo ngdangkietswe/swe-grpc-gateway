@@ -22,6 +22,7 @@ func NewServer() Server {
 func (server *Server) Init() {
 	server.router.Use(middleware.NewAuthMiddleware().AsMiddleware())
 	route.RegisterGrpcGateway(server.router)
+	route.RegisterSwagger(server.router)
 }
 
 // Serve is a function that starts the server

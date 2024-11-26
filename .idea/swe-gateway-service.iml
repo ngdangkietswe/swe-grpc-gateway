@@ -6,5 +6,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="swe-auth-service" />
+    <orderEntry type="module" module-name="swe-notification-service" />
   </component>
 </module>
