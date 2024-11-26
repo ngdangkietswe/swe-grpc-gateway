@@ -27,6 +27,7 @@ func RegisterGrpcGateway(router *gin.Engine) {
 				MarshalOptions: protojson.MarshalOptions{
 					EmitUnpopulated: true,
 					UseEnumNumbers:  true,
+					UseProtoNames:   true,
 				},
 				UnmarshalOptions: protojson.UnmarshalOptions{
 					DiscardUnknown: true,
