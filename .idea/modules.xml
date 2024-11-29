@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/../swe-auth-service/.idea/swe-auth-service.iml" filepath="$PROJECT_DIR$/../swe-auth-service/.idea/swe-auth-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/swe-gateway-service.iml" filepath="$PROJECT_DIR$/.idea/swe-gateway-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/../swe-notification-service/.idea/swe-notification-service.iml" filepath="$PROJECT_DIR$/../swe-notification-service/.idea/swe-notification-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../swe-storage-service/.idea/swe-storage-service.iml" filepath="$PROJECT_DIR$/../swe-storage-service/.idea/swe-storage-service.iml" />
     </modules>
   </component>
 </project>

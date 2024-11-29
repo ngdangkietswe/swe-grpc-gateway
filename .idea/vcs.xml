@@ -2,9 +2,8 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$/../swe-auth-service" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../swe-auth-service/librdkafka" vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/../swe-notification-service" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/../swe-notification-service/librdkafka" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../swe-storage-service" vcs="Git" />
   </component>
 </project>

@@ -9,6 +9,9 @@
       "name": "AuthService"
     },
     {
+      "name": "StorageService"
+    },
+    {
       "name": "TaskService"
     }
   ],
@@ -112,6 +115,38 @@
         ],
         "tags": [
           "AuthService"
+        ]
+      }
+    },
+    "/api/v1/storage/presigned-url": {
+      "post": {
+        "operationId": "StorageService_GetPresignedURL",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/storagePresignedURLResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/storagePresignedURLReq"
+            }
+          }
+        ],
+        "tags": [
+          "StorageService"
         ]
       }
     },
@@ -426,6 +461,47 @@
         }
       },
       "additionalProperties": {}
+    },
+    "storagePresignedURLMethod": {
+      "type": "integer",
+      "format": "int32",
+      "enum": [
+        0,
+        1
+      ],
+      "default": 0
+    },
+    "storagePresignedURLReq": {
+      "type": "object",
+      "properties": {
+        "object_name": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/storagePresignedURLMethod"
+        },
+        "bucket_name": {
+          "type": "string"
+        },
+        "duration": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "storagePresignedURLResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "url": {
+          "type": "string"
+        },
+        "error": {
+          "$ref": "#/definitions/commonError"
+        }
+      }
     },
     "taskListTaskResp": {
       "type": "object",

@@ -38,6 +38,7 @@ func RegisterGrpcGateway(router *gin.Engine) {
 	// Register grpc handler
 	grpc.RegisterTaskGrpcHandler(mux)
 	grpc.RegisterAuthGrpcHandler(mux)
+	grpc.RegisterStorageGrpcHandler(mux)
 
 	router.Any("/api/v1/*any", gin.WrapH(mux))
 }
