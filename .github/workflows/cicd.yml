@@ -44,6 +44,21 @@ jobs:
         run: |
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/swe-gateway-service .
 
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "ngdangkietse"
+          git config --global user.email "kietnguyen17052001@gmail.com"
+          if [ -n "$(git status -s)" ]; then
+            git status
+            git add .
+            git commit -m "chore: regenerate files"
+            git push origin main
+          else
+            echo "No changes to commit"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   docker:
     name: Docker Build and Push
     needs: build-and-test
