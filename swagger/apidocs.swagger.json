@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "google/api/http.proto",
+    "title": "common/shared.proto",
     "version": "version not set"
   },
   "tags": [
@@ -115,6 +115,70 @@
         ],
         "tags": [
           "AuthService"
+        ]
+      }
+    },
+    "/api/v1/storage/file/object/delete": {
+      "post": {
+        "operationId": "StorageService_DeleteFileObject",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/storageDeleteFileObjectResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/storageDeleteFileObjectReq"
+            }
+          }
+        ],
+        "tags": [
+          "StorageService"
+        ]
+      }
+    },
+    "/api/v1/storage/file/objects": {
+      "post": {
+        "operationId": "StorageService_ListFileObject",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/storageListFileObjectResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/storageListFileObjectReq"
+            }
+          }
+        ],
+        "tags": [
+          "StorageService"
         ]
       }
     },
@@ -461,6 +525,82 @@
         }
       },
       "additionalProperties": {}
+    },
+    "storageDeleteFileObjectReq": {
+      "type": "object",
+      "properties": {
+        "object_name": {
+          "type": "string"
+        },
+        "bucket_name": {
+          "type": "string"
+        }
+      }
+    },
+    "storageDeleteFileObjectResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "error": {
+          "$ref": "#/definitions/commonError"
+        }
+      }
+    },
+    "storageFileObject": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "object_name": {
+          "type": "string"
+        },
+        "file_name": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "storageListFileObjectReq": {
+      "type": "object",
+      "properties": {
+        "bucket_name": {
+          "type": "string"
+        },
+        "prefix": {
+          "type": "string"
+        }
+      }
+    },
+    "storageListFileObjectResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "$ref": "#/definitions/storageListFileObjectRespData"
+        },
+        "error": {
+          "$ref": "#/definitions/commonError"
+        }
+      }
+    },
+    "storageListFileObjectRespData": {
+      "type": "object",
+      "properties": {
+        "file_objects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/storageFileObject"
+          }
+        }
+      }
     },
     "storagePresignedURLMethod": {
       "type": "integer",
