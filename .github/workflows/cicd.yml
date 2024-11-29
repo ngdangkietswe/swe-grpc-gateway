@@ -36,6 +36,9 @@ jobs:
       - name: Install Dependencies
         run: go mod download
 
+      - name: Set execute permission on update_swagger.sh
+        run: chmod +x ./scripts/update_swagger.sh
+
       - name: Update swagger
         run: make update-swagger
 
