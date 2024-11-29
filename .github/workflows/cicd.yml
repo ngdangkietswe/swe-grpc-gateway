@@ -28,22 +28,17 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
 
-      - name: Install make and dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install make
-
       - name: Install Dependencies
         run: go mod download
 
-      - name: Set execute permission on update_swagger.sh
-        run: chmod +x ./scripts/update_swagger.sh
-
-      - name: Update swagger
-        run: make update-swagger
-
       - name: Run Tests
         run: go test ./... -v
+
+      - name: Update swagger
+        run: |
+          chmod +x ./scripts/update_swagger.sh
+            ./scripts/update_swagger.sh
+        shell: bash
 
       - name: Build Application
         run: |
