@@ -1,10 +1,16 @@
 name: Golang CI/CD Pipeline
 
 on:
+  repository_dispatch:
+    types: [ trigger-swe-grpc-gateway ]
   push:
     branches:
       - main
+    paths-ignore:
+      - '**/*.md'
   pull_request:
+    paths-ignore:
+      - '**/*.md'
 
 jobs:
   build-and-test:
