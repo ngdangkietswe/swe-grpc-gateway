@@ -40,15 +40,11 @@ jobs:
       - name: Run Tests
         run: go test ./... -v
 
-      - name: Update swagger
+      - name: Update protobuf and swagger
         run: |
-          chmod +x ./scripts/update_swagger.sh
-            ./scripts/update_swagger.sh
+          chmod +x ./scripts/build.sh
+            ./scripts/build.sh
         shell: bash
-
-      - name: Build Application
-        run: |
-          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/swe-gateway-service .
 
       - name: Commit and push changes
         run: |
