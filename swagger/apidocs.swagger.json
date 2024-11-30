@@ -118,6 +118,38 @@
         ]
       }
     },
+    "/api/v1/storage/file/object/batch-delete": {
+      "post": {
+        "operationId": "StorageService_BatchDeleteFileObject",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/commonEmptyResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/storageBatchDeleteFileObjectReq"
+            }
+          }
+        ],
+        "tags": [
+          "StorageService"
+        ]
+      }
+    },
     "/api/v1/storage/file/object/delete": {
       "post": {
         "operationId": "StorageService_DeleteFileObject",
@@ -125,7 +157,7 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/storageDeleteFileObjectResp"
+              "$ref": "#/definitions/commonEmptyResp"
             }
           },
           "default": {
@@ -428,6 +460,17 @@
         }
       }
     },
+    "commonEmptyResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "error": {
+          "$ref": "#/definitions/commonError"
+        }
+      }
+    },
     "commonError": {
       "type": "object",
       "properties": {
@@ -526,6 +569,18 @@
       },
       "additionalProperties": {}
     },
+    "storageBatchDeleteFileObjectReq": {
+      "type": "object",
+      "properties": {
+        "delete_file_objects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/storageDeleteFileObjectReq"
+          }
+        }
+      }
+    },
     "storageDeleteFileObjectReq": {
       "type": "object",
       "properties": {
@@ -534,17 +589,6 @@
         },
         "bucket_name": {
           "type": "string"
-        }
-      }
-    },
-    "storageDeleteFileObjectResp": {
-      "type": "object",
-      "properties": {
-        "success": {
-          "type": "boolean"
-        },
-        "error": {
-          "$ref": "#/definitions/commonError"
         }
       }
     },
