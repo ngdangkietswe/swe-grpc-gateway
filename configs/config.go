@@ -1,9 +1,10 @@
 package configs
 
 import (
-	"fmt"
 	"github.com/spf13/viper"
 	"log"
+	"os"
+	"strings"
 	"time"
 )
 
@@ -12,40 +13,28 @@ var (
 )
 
 func init() {
-	viper.AddConfigPath("./configs")
-	viper.SetConfigName("config")
-	viper.SetConfigType("env")
-	viper.AutomaticEnv()
+	env := os.Getenv("K8S_ENV")
+	log.Printf("K8S_ENV is set to %s", env)
+	if strings.ToLower(env) == "prod" {
+		log.Println("Using production config")
+		viper.AutomaticEnv()
+	} else {
+		log.Println("Using local config")
+		viper.AddConfigPath("./configs")
+		viper.SetConfigName("config")
+		viper.SetConfigType("env")
 
-	err := viper.ReadInConfig()
-	if err != nil {
-		log.Fatalf("Can't read config file: %v", err)
-		return
+		err := viper.ReadInConfig()
+		if err != nil {
+			log.Fatalf("Can't read config file: %v", err)
+			return
+		}
 	}
 
-	config := &Configuration{}
-	err = viper.Unmarshal(config)
+	err := viper.Unmarshal(&GlobalConfig)
 	if err != nil {
 		log.Fatalf("Can't unmarshal config: %v", err)
-		return
 	}
-
-	GlobalConfig = config
-
-	fmt.Println("\033[34m================= Loaded Configuration =================\033[0m")
-	fmt.Printf("\033[36mPort:               \033[32m%d\033[0m\n", GlobalConfig.Port)
-	fmt.Printf("\033[36mGRPC Task Host:     \033[32m%s\033[0m\n", GlobalConfig.GrpcTaskHost)
-	fmt.Printf("\033[36mGRPC Task Port:     \033[32m%d\033[0m\n", GlobalConfig.GrpcTaskPort)
-	fmt.Printf("\033[36mGRPC Auth Host:     \033[32m%s\033[0m\n", GlobalConfig.GrpcAuthHost)
-	fmt.Printf("\033[36mGRPC Auth Port:     \033[32m%d\033[0m\n", GlobalConfig.GrpcAuthPort)
-	fmt.Printf("\033[36mGRPC Storage Host:  \033[32m%s\033[0m\n", GlobalConfig.GrpcStorageHost)
-	fmt.Printf("\033[36mGRPC Storage Port:  \033[32m%d\033[0m\n", GlobalConfig.GrpcStoragePort)
-	fmt.Printf("\033[36mJWT Secret:         \033[32m%s\033[0m\n", GlobalConfig.JwtSecret)
-	fmt.Printf("\033[36mJWT Issuer:         \033[32m%s\033[0m\n", GlobalConfig.JwtIssuer)
-	fmt.Printf("\033[36mJWT Expiration:     \033[32m%s\033[0m\n", GlobalConfig.JwtExp)
-	fmt.Println("\033[34m========================================================\033[0m")
-
-	return
 }
 
 type Configuration struct {
