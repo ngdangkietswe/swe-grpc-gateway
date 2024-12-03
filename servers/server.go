@@ -3,9 +3,9 @@ package servers
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/ngdangkietswe/swe-gateway-service/configs"
 	"github.com/ngdangkietswe/swe-gateway-service/servers/middleware"
 	"github.com/ngdangkietswe/swe-gateway-service/servers/route"
+	"github.com/ngdangkietswe/swe-go-common-shared/config"
 )
 
 type Server struct {
@@ -27,7 +27,7 @@ func (server *Server) Init() {
 
 // Serve is a function that starts the server
 func (server *Server) Serve() {
-	err := server.router.Run(fmt.Sprintf(":%d", configs.GlobalConfig.Port))
+	err := server.router.Run(fmt.Sprintf(":%d", config.GetInt("PORT", 7777)))
 	if err != nil {
 		return
 	}

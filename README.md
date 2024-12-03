@@ -15,6 +15,12 @@ This is the gateway for the SWE Platform. It is responsible for routing requests
 
 ![](assets/grpc-gateway.png)
 
+## Build
+
+```bash
+  make build
+  ```
+
 ## Swagger
 
 ```bash

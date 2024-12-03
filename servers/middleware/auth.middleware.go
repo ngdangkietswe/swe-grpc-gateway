@@ -3,6 +3,8 @@ package middleware
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/ngdangkietswe/swe-gateway-service/utils"
+	"github.com/ngdangkietswe/swe-go-common-shared/config"
+	"github.com/ngdangkietswe/swe-go-common-shared/util"
 	"net/http"
 	"strings"
 )
@@ -36,7 +38,7 @@ func (a AuthMiddleware) Handle(ctx *gin.Context) {
 		return
 	}
 
-	_, err := utils.ValidateToken(token)
+	_, err := util.ParseToken(token, config.GetString("JWT_SECRET", ""))
 	if err != nil {
 		ctx.IndentedJSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
 		ctx.Abort()
