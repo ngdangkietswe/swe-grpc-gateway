@@ -12,6 +12,9 @@ on:
     paths-ignore:
       - '**/*.md'
 
+env:
+  IMAGE_NAME: 01092002/swe-gateway-service
+
 jobs:
   build-and-push:
     name: Build and Push Docker Image
@@ -21,9 +24,9 @@ jobs:
       contents: write
       packages: write
 
-    env:
-      IMAGE_NAME: 01092002/swe-gateway-service
-
+    outputs:
+      IMAGE_TAG: ${{ steps.build_image.outputs.image_tag }}
+    
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -53,10 +56,6 @@ jobs:
         id: extract_branch
         run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
 
-      - name: Git Commit Data
-        id: git_commit_data
-        uses: rlespinasse/git-commit-data-action@v1.5.0
-
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
@@ -67,6 +66,7 @@ jobs:
         run: echo "✅ Successfully logged in to Docker Hub."
 
       - name: Build Docker Image
+        id: build_image
         run: |
           set -e  # Exit on any error
           echo "🚀 Starting Docker image build..."
@@ -74,18 +74,19 @@ jobs:
           # Extract details for tagging
           TIMESTAMP=$(TZ=Asia/Ho_Chi_Minh date +"%Y%m%d%H%M%S")
           BRANCH_NAME=${{ steps.extract_branch.outputs.branch }}
-          COMMIT_SHA=${{ steps.git_commit_data.outputs.short_sha }}
+          COMMIT_SHA=$(git rev-parse --short HEAD)
           IMAGE_TAG="$BRANCH_NAME-$COMMIT_SHA-$TIMESTAMP"
 
           echo "🔖 Tagging Docker image as $IMAGE_TAG..."
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+          echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
 
-          # Build the Docker image with --no-cache flag
-          docker build --no-cache -t $IMAGE_NAME:$IMAGE_TAG -t $IMAGE_NAME:latest .
+          # Build the Docker image
+          docker build -t $IMAGE_NAME:$IMAGE_TAG .
 
       - name: Confirm Docker Build
         run: |
-          echo "✅ Docker image built successfully with tags: ${{ env.IMAGE_TAG }} and latest."
+          echo "✅ Docker image built successfully with tag: ${{ env.IMAGE_TAG }}."
 
       - name: Push Docker Image
         run: |
@@ -94,6 +95,38 @@ jobs:
 
           # Push both tags
           docker push $IMAGE_NAME:${{ env.IMAGE_TAG }}
-          docker push $IMAGE_NAME:latest
 
-          echo "✅ Docker images pushed successfully: $IMAGE_NAME:${{ env.IMAGE_TAG }} and $IMAGE_NAME:latest."
+          echo "✅ Docker image pushed successfully: $IMAGE_NAME:${{ env.IMAGE_TAG }}."
+  
+  modify-k8s:
+    name: Modify Kubernetes Deployment
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          repository: 'ngdangkietswe/swe-infrastructure'
+          token: ${{ secrets.PAT }}
+
+      - name: Modify Image Tag
+        id: modify_image_tag
+        run: |
+          set -e  # Exit on any error
+          echo "🔧 Modifying Kubernetes deployment files..."
+
+          git config --global user.name "ngdangkietse"
+          git config --global user.email "kietnguyen17052001@gmail.com"          
+
+          # Extract the image tag
+          IMAGE_TAG=${{ needs.build-and-push.outputs.IMAGE_TAG }}
+
+          # Modify the deployment files
+          sed -i "s|image: $IMAGE_NAME:.*|image: $IMAGE_NAME:$IMAGE_TAG|" k8s/swe-gateway-service/deployment.yml
+
+          git add .
+          git commit -m "chore(swe-gateway-service): update image tag to $IMAGE_TAG"
+          git push origin main
+
+          echo "✅ Kubernetes deployment files updated successfully."
