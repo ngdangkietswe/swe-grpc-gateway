@@ -152,7 +152,7 @@ jobs:
 
   push-notification-to-slack:
     name: Slack Notification
-    needs: modify-k8s
+    needs: [build-and-push, modify-k8s]
     runs-on: ubuntu-latest
 
     env:
