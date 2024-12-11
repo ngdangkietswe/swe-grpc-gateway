@@ -25,9 +25,15 @@ jobs:
       packages: write
 
     outputs:
+      START_TIME: ${{ steps.build_start_time.outputs.start_time }}
       IMAGE_TAG: ${{ steps.build_image.outputs.image_tag }}
+      COMMIT_SHA: ${{ steps.build_image.outputs.commit_sha }}
     
     steps:
+      - name: Calculate build start time
+        id: build_start_time
+        run: echo "start_time=$(date +%s)" >> $GITHUB_OUTPUT
+
       - name: Checkout Code
         uses: actions/checkout@v3
 
@@ -80,6 +86,7 @@ jobs:
           echo "🔖 Tagging Docker image as $IMAGE_TAG..."
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
           echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
+          echo "commit_sha=$COMMIT_SHA" >> $GITHUB_OUTPUT
 
           # Build the Docker image
           docker build -t $IMAGE_NAME:$IMAGE_TAG .
@@ -102,6 +109,9 @@ jobs:
     name: Modify Kubernetes Deployment
     needs: build-and-push
     runs-on: ubuntu-latest
+
+    outputs:
+      DURATION: ${{ steps.build_duration.outputs.duration }}
 
     steps:
       - name: Checkout Code
@@ -130,3 +140,79 @@ jobs:
           git push origin main
 
           echo "✅ Kubernetes deployment files updated successfully."
+
+      - name: Calculate build duration
+        id: build_duration
+        run: |
+          START_TIME=${{ needs.build-and-push.outputs.START_TIME }}
+          END_TIME=$(date +%s)
+          DURATION=$((END_TIME - START_TIME))
+          echo "duration=$DURATION" >> $GITHUB_OUTPUT
+          echo "✅ Build took $DURATION seconds."
+
+  push-notification-to-slack:
+    name: Slack Notification
+    needs: modify-k8s
+    runs-on: ubuntu-latest
+
+    env:
+      SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    steps:
+      - name: Push Notification to Slack
+        uses: slackapi/slack-github-action@v1.26.0
+        with:
+          payload: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*:white_check_mark: Succeeded GitHub Actions*"
+                  }
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Repo*\n<https://github.com/${{ github.repository }}|${{ github.repository }}>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Commit*\n<${{ github.event.head_commit.url }}|${{ needs.build-and-push.outputs.COMMIT_SHA }}>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Author*\n${{ github.event.head_commit.author.name }}"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Job*\n`${{ github.job }}`"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Event Name*\n`${{ github.event_name }}`"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Workflow*\n`${{ github.workflow }}`"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Build Logs*\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Logs>"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Took*\n`${{ needs.modify-k8s.outputs.DURATION }} sec`"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Message*\n${{ github.event.head_commit.message }}"
+                    }
+                  ]
+                }
+              ]
+            }
