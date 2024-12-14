@@ -12,6 +12,9 @@
       "name": "StorageService"
     },
     {
+      "name": "CommentService"
+    },
+    {
       "name": "TaskService"
     }
   ],
@@ -115,6 +118,134 @@
         ],
         "tags": [
           "AuthService"
+        ]
+      }
+    },
+    "/api/v1/comments": {
+      "get": {
+        "operationId": "CommentService_ListComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/taskListCommentResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "task_id",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageable.page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageable.size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageable.sort",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageable.direction",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageable.un_paged",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "pageable.search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "CommentService"
+        ]
+      },
+      "post": {
+        "operationId": "CommentService_UpsertComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/commonUpsertResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/taskUpsertCommentReq"
+            }
+          }
+        ],
+        "tags": [
+          "CommentService"
+        ]
+      }
+    },
+    "/api/v1/comments/{id}": {
+      "delete": {
+        "operationId": "CommentService_DeleteComment",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/commonEmptyResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "CommentService"
         ]
       }
     },
@@ -265,36 +396,75 @@
         },
         "parameters": [
           {
-            "name": "page",
+            "name": "created_by_id",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "reporter_id",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "assignee_id",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "enum": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "default": 0
+          },
+          {
+            "name": "pageable.page",
             "in": "query",
             "required": false,
             "type": "integer",
             "format": "int32"
           },
           {
-            "name": "size",
+            "name": "pageable.size",
             "in": "query",
             "required": false,
             "type": "integer",
             "format": "int32"
           },
           {
-            "name": "sort",
+            "name": "pageable.sort",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "direction",
+            "name": "pageable.direction",
             "in": "query",
             "required": false,
             "type": "string"
           },
           {
-            "name": "un_paged",
+            "name": "pageable.un_paged",
             "in": "query",
             "required": false,
             "type": "boolean"
+          },
+          {
+            "name": "pageable.search",
+            "in": "query",
+            "required": false,
+            "type": "string"
           },
           {
             "name": "search",
@@ -329,7 +499,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/taskTask"
+              "$ref": "#/definitions/taskUpsertTaskReq"
             }
           }
         ],
@@ -345,7 +515,155 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/taskTask"
+              "$ref": "#/definitions/taskGetTaskResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "TaskService"
+        ]
+      },
+      "delete": {
+        "operationId": "TaskService_DeleteTask",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/commonEmptyResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "TaskService"
+        ]
+      }
+    },
+    "/api/v1/tasks/{id}/canceled": {
+      "get": {
+        "operationId": "TaskService_MarkTaskAsCanceled",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/commonEmptyResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "TaskService"
+        ]
+      }
+    },
+    "/api/v1/tasks/{id}/done": {
+      "get": {
+        "operationId": "TaskService_MarkTaskAsDone",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/commonEmptyResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "TaskService"
+        ]
+      }
+    },
+    "/api/v1/tasks/{id}/in-progress": {
+      "get": {
+        "operationId": "TaskService_MarkTaskAsInProgress",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/commonEmptyResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "TaskService"
+        ]
+      }
+    },
+    "/api/v1/tasks/{id}/in-review": {
+      "get": {
+        "operationId": "TaskService_MarkTaskAsInReview",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/commonEmptyResp"
             }
           },
           "default": {
@@ -460,6 +778,32 @@
         }
       }
     },
+    "commonAudit": {
+      "type": "object",
+      "properties": {
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "is_deleted": {
+          "type": "boolean"
+        },
+        "deleted_at": {
+          "type": "string"
+        },
+        "created_by": {
+          "$ref": "#/definitions/commonUser"
+        },
+        "updated_by": {
+          "$ref": "#/definitions/commonUser"
+        },
+        "deleted_by": {
+          "$ref": "#/definitions/commonUser"
+        }
+      }
+    },
     "commonEmptyResp": {
       "type": "object",
       "properties": {
@@ -519,6 +863,31 @@
         }
       }
     },
+    "commonPageable": {
+      "type": "object",
+      "properties": {
+        "page": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "type": "string"
+        },
+        "direction": {
+          "type": "string"
+        },
+        "un_paged": {
+          "type": "boolean"
+        },
+        "search": {
+          "type": "string"
+        }
+      }
+    },
     "commonUpsertResp": {
       "type": "object",
       "properties": {
@@ -537,6 +906,17 @@
       "type": "object",
       "properties": {
         "id": {
+          "type": "string"
+        }
+      }
+    },
+    "commonUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "email": {
           "type": "string"
         }
       }
@@ -687,6 +1067,87 @@
         }
       }
     },
+    "taskComment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "task": {
+          "$ref": "#/definitions/taskCommentTask"
+        },
+        "parent": {
+          "$ref": "#/definitions/taskComment"
+        },
+        "children": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/taskComment"
+          }
+        },
+        "audit": {
+          "$ref": "#/definitions/commonAudit"
+        }
+      }
+    },
+    "taskCommentTask": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        }
+      }
+    },
+    "taskGetTaskResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "task": {
+          "$ref": "#/definitions/taskTask"
+        },
+        "error": {
+          "$ref": "#/definitions/commonError"
+        }
+      }
+    },
+    "taskListCommentResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "$ref": "#/definitions/taskListCommentRespData"
+        },
+        "error": {
+          "$ref": "#/definitions/commonError"
+        }
+      }
+    },
+    "taskListCommentRespData": {
+      "type": "object",
+      "properties": {
+        "comments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/taskComment"
+          }
+        },
+        "page_meta_data": {
+          "$ref": "#/definitions/commonPageMetaData"
+        }
+      }
+    },
     "taskListTaskResp": {
       "type": "object",
       "properties": {
@@ -724,7 +1185,8 @@
         1,
         2,
         3,
-        4
+        4,
+        5
       ],
       "default": 0
     },
@@ -734,7 +1196,7 @@
         "id": {
           "type": "string"
         },
-        "name": {
+        "title": {
           "type": "string"
         },
         "description": {
@@ -742,6 +1204,55 @@
         },
         "status": {
           "$ref": "#/definitions/taskStatus"
+        },
+        "reporter": {
+          "$ref": "#/definitions/commonUser"
+        },
+        "assignee": {
+          "$ref": "#/definitions/commonUser"
+        },
+        "audit": {
+          "$ref": "#/definitions/commonAudit"
+        }
+      }
+    },
+    "taskUpsertCommentReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "task_id": {
+          "type": "string"
+        },
+        "parent_id": {
+          "type": "string"
+        }
+      }
+    },
+    "taskUpsertTaskReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/taskStatus"
+        },
+        "reporter_id": {
+          "type": "string"
+        },
+        "assignee_id": {
+          "type": "string"
         }
       }
     }
