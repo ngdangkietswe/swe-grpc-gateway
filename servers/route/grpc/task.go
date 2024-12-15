@@ -12,14 +12,24 @@ import (
 )
 
 func RegisterTaskGrpcHandler(mux *runtime.ServeMux) {
-	err := gen.RegisterTaskServiceHandlerFromEndpoint(
-		context.Background(),
-		mux,
-		fmt.Sprintf("%s:%d", config.GetString("GRPC_TASK_HOST", "localhost"), config.GetInt("GRPC_TASK_PORT", 7010)),
-		[]grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())},
+	grpcTaskAddress := fmt.Sprintf("%s:%d",
+		config.GetString("GRPC_TASK_HOST", "localhost"),
+		config.GetInt("GRPC_TASK_PORT", 7010),
 	)
 
-	if err != nil {
-		log.Fatalf("Can't register Task GRPC Handler: %v", err)
+	dialOptions := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
+
+	services := []struct {
+		registerFunc func(context.Context, *runtime.ServeMux, string, []grpc.DialOption) error
+		name         string
+	}{
+		{gen.RegisterTaskServiceHandlerFromEndpoint, "TaskService"},
+		{gen.RegisterCommentServiceHandlerFromEndpoint, "CommentService"},
+	}
+
+	for _, service := range services {
+		if err := service.registerFunc(context.Background(), mux, grpcTaskAddress, dialOptions); err != nil {
+			log.Fatalf("Failed to register %s: %v", service.name, err)
+		}
 	}
 }
