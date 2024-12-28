@@ -7,7 +7,7 @@ toolchain go1.22.9
 require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.23.0
-	github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20241203102512-75e12fb0b2af
+	github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20241228081125-bb5d18bfb3ca
 	github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20241228025738-656cc0cc9fd7
 	google.golang.org/grpc v1.68.0
 	google.golang.org/protobuf v1.35.2
@@ -26,6 +26,7 @@ require (
 	github.com/go-playground/validator/v10 v10.20.0 // indirect
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
+	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
@@ -38,6 +39,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.2.2 // indirect
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
 	github.com/sagikazarmark/slog-shim v0.1.0 // indirect
+	github.com/samber/lo v1.47.0 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
 	github.com/spf13/afero v1.11.0 // indirect
 	github.com/spf13/cast v1.6.0 // indirect
