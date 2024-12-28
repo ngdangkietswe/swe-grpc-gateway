@@ -9,6 +9,9 @@
       "name": "AuthService"
     },
     {
+      "name": "PermissionService"
+    },
+    {
       "name": "StorageService"
     },
     {
@@ -246,6 +249,148 @@
         ],
         "tags": [
           "CommentService"
+        ]
+      }
+    },
+    "/api/v1/permissions": {
+      "get": {
+        "operationId": "PermissionService_ListPermissions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/authListPermissionsResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageable.page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageable.size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageable.sort",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageable.direction",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageable.un_paged",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "pageable.search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "action_id",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "resource_id",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "PermissionService"
+        ]
+      },
+      "post": {
+        "operationId": "PermissionService_UpsertPermission",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/commonUpsertResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/authUpsertPermissionReq"
+            }
+          }
+        ],
+        "tags": [
+          "PermissionService"
+        ]
+      }
+    },
+    "/api/v1/permissions/assign": {
+      "post": {
+        "operationId": "PermissionService_AssignPermissions",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/commonEmptyResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/authAssignPermissionsReq"
+            }
+          }
+        ],
+        "tags": [
+          "PermissionService"
         ]
       }
     },
@@ -688,6 +833,34 @@
     }
   },
   "definitions": {
+    "authAction": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "authAssignPermissionsReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "permission_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
     "authEnableOrDisable2FAReq": {
       "type": "object",
       "properties": {
@@ -707,6 +880,35 @@
         },
         "qr_code_image_url": {
           "type": "string"
+        }
+      }
+    },
+    "authListPermissionsResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "$ref": "#/definitions/authListPermissionsRespData"
+        },
+        "error": {
+          "$ref": "#/definitions/commonError"
+        }
+      }
+    },
+    "authListPermissionsRespData": {
+      "type": "object",
+      "properties": {
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authPermission"
+          }
+        },
+        "page_meta_data": {
+          "$ref": "#/definitions/commonPageMetaData"
         }
       }
     },
@@ -758,6 +960,54 @@
         },
         "two_factor_auth": {
           "type": "boolean"
+        }
+      }
+    },
+    "authPermission": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "action": {
+          "$ref": "#/definitions/authAction"
+        },
+        "resource": {
+          "$ref": "#/definitions/authResource"
+        }
+      }
+    },
+    "authResource": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
+    "authUpsertPermissionReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "action_id": {
+          "type": "string"
+        },
+        "resource_id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
         }
       }
     },
