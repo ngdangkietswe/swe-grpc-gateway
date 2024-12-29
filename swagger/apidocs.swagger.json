@@ -9,6 +9,9 @@
       "name": "AuthService"
     },
     {
+      "name": "PermissionInternalService"
+    },
+    {
       "name": "PermissionService"
     },
     {
@@ -977,6 +980,32 @@
         },
         "resource": {
           "$ref": "#/definitions/authResource"
+        }
+      }
+    },
+    "authPermissionOfUserResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "$ref": "#/definitions/authPermissionOfUserRespData"
+        },
+        "error": {
+          "$ref": "#/definitions/commonError"
+        }
+      }
+    },
+    "authPermissionOfUserRespData": {
+      "type": "object",
+      "properties": {
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/authPermission"
+          }
         }
       }
     },
