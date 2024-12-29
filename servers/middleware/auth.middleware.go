@@ -1,15 +1,28 @@
 package middleware
 
 import (
+	"context"
+	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/ngdangkietswe/swe-gateway-service/cache"
+	"github.com/ngdangkietswe/swe-gateway-service/constants"
+	"github.com/ngdangkietswe/swe-gateway-service/domain"
 	"github.com/ngdangkietswe/swe-gateway-service/utils"
 	"github.com/ngdangkietswe/swe-go-common-shared/config"
 	"github.com/ngdangkietswe/swe-go-common-shared/util"
+	"github.com/ngdangkietswe/swe-protobuf-shared/generated/auth"
+	"github.com/ngdangkietswe/swe-protobuf-shared/generated/common"
+	"google.golang.org/grpc"
+	"log"
 	"net/http"
 	"strings"
+	"time"
 )
 
 type AuthMiddleware struct {
+	authConn *grpc.ClientConn
+	cache    *cache.RedisCache
 }
 
 // ShouldSkip is a middleware function that checks if the request should skip the auth middleware
@@ -38,15 +51,76 @@ func (a AuthMiddleware) Handle(ctx *gin.Context) {
 		return
 	}
 
-	_, err := util.ParseToken(token, config.GetString("JWT_SECRET", ""))
+	claims, err := util.ParseToken(token, config.GetString("JWT_SECRET", ""))
 	if err != nil {
 		ctx.IndentedJSON(http.StatusUnauthorized, gin.H{"message": "Unauthorized"})
 		ctx.Abort()
 		return
 	}
 
+	claimsUser := (*claims)["user"].(map[string]interface{})
+	userId := claimsUser["user_id"].(string)
+
+	// Get and cache user permission to the context.
+	userPermission, err := a.getAndCacheUserPermission(ctx, userId)
+	if err != nil {
+		ctx.IndentedJSON(http.StatusUnauthorized, gin.H{"message": "Unknown error"})
+		ctx.Abort()
+		return
+	}
+
+	grpcUserPermission, err := json.Marshal(userPermission)
+	if err != nil {
+		ctx.IndentedJSON(http.StatusUnauthorized, gin.H{"message": "Unknown error"})
+		ctx.Abort()
+		return
+	}
+
+	ctx.Request.Header.Add(constants.GrpcMetadataUserPermission, string(grpcUserPermission))
+
 	ctx.Next()
 	return
+}
+
+// getAndCacheUserPermission is a function that gets the user permission from the cache.
+// If it doesn't exist, it will get it from the auth service.
+func (a AuthMiddleware) getAndCacheUserPermission(ctx context.Context, userId string) (*domain.UserPermission, error) {
+	var (
+		userPermission       *domain.UserPermission
+		permissionOfUserResp *auth.PermissionOfUserResp
+		permissions          []*domain.Permission
+	)
+
+	cacheKey := fmt.Sprintf("%s_%s", constants.UserPermissionCacheKeyPrefix, userId)
+	if err := a.cache.Get(cacheKey, &userPermission); err != nil {
+		log.Printf("Error getting user permission from cache: %v", err)
+		authClient := auth.NewPermissionInternalServiceClient(a.authConn)
+
+		permissionOfUserResp, err = authClient.PermissionOfUser(ctx, &common.IdReq{
+			Id: userId,
+		})
+		if err != nil {
+			log.Printf("Error getting user permission: %v", err)
+			return nil, err
+		}
+
+		for _, permission := range permissionOfUserResp.GetData().Permissions {
+			permissions = append(permissions, &domain.Permission{
+				Action:   permission.Action.Name,
+				Resource: permission.Resource.Name,
+			})
+		}
+
+		userPermission = &domain.UserPermission{
+			Permissions: permissions,
+		}
+
+		if err = a.cache.Set(cacheKey, userPermission, 30*time.Minute); err != nil {
+			return nil, err
+		}
+	}
+
+	return userPermission, nil
 }
 
 func (a AuthMiddleware) AsMiddleware() gin.HandlerFunc {
@@ -60,6 +134,11 @@ func (a AuthMiddleware) AsMiddleware() gin.HandlerFunc {
 	}
 }
 
-func NewAuthMiddleware() Middleware {
-	return &AuthMiddleware{}
+func NewAuthMiddleware(
+	authConn *grpc.ClientConn,
+	cache *cache.RedisCache) Middleware {
+	return &AuthMiddleware{
+		authConn: authConn,
+		cache:    cache,
+	}
 }
