@@ -14,6 +14,7 @@ import (
 	"github.com/ngdangkietswe/swe-protobuf-shared/generated/auth"
 	"github.com/ngdangkietswe/swe-protobuf-shared/generated/common"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 	"log"
 	"net/http"
 	"strings"
@@ -61,8 +62,11 @@ func (a AuthMiddleware) Handle(ctx *gin.Context) {
 	claimsUser := (*claims)["user"].(map[string]interface{})
 	userId := claimsUser["user_id"].(string)
 
+	md := metadata.Pairs(constants.AuthorizationHeader, fmt.Sprintf("%s %s", constants.TokenPrefix, token))
+	newCtx := metadata.NewOutgoingContext(context.Background(), md)
+
 	// Get and cache user permission to the context.
-	userPermission, err := a.getAndCacheUserPermission(ctx, userId)
+	userPermission, err := a.getAndCacheUserPermission(newCtx, userId)
 	if err != nil {
 		ctx.IndentedJSON(http.StatusUnauthorized, gin.H{"message": "Unknown error"})
 		ctx.Abort()

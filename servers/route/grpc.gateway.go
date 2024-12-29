@@ -5,35 +5,59 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"github.com/ngdangkietswe/swe-gateway-service/servers/route/grpc"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/encoding/protojson"
+	"google.golang.org/protobuf/proto"
+	"log"
 	"net/http"
+	"strings"
 )
 
 // RegisterGrpcGateway register gRPC gateway. This will multiplex or route request different gRPC service
 func RegisterGrpcGateway(router *gin.Engine) {
 	mux := runtime.NewServeMux(
 		runtime.WithErrorHandler(func(ctx context.Context, mux *runtime.ServeMux, marshaler runtime.Marshaler, writer http.ResponseWriter, request *http.Request, err error) {
-			// Creating custom error type to add HTTP status code
 			newError := runtime.HTTPStatusError{
 				HTTPStatus: 400,
 				Err:        err,
 			}
-			// Using default HTTP error handler to write error response
 			runtime.DefaultHTTPErrorHandler(ctx, mux, marshaler, writer, request, &newError)
 		}),
-		// Using JSONPb marshaler to marshal and unmarshal JSON
+		runtime.WithIncomingHeaderMatcher(func(key string) (string, bool) {
+			if strings.HasPrefix(strings.ToLower(key), "grpc-") {
+				return key, true
+			}
+			return "", false
+		}),
+		runtime.WithOutgoingHeaderMatcher(func(key string) (string, bool) {
+			return key, true
+		}),
+		runtime.WithMetadata(func(ctx context.Context, req *http.Request) metadata.MD {
+			md := metadata.Pairs()
+			for key, values := range req.Header {
+				if strings.HasPrefix(strings.ToLower(key), "grpc-") {
+					md.Append(strings.ToLower(key), values...)
+				}
+			}
+			return md
+		}),
 		runtime.WithMarshalerOption(runtime.MIMEWildcard, &runtime.HTTPBodyMarshaler{
 			Marshaler: &runtime.JSONPb{
 				MarshalOptions: protojson.MarshalOptions{
 					EmitUnpopulated: true,
-					UseEnumNumbers:  true,
 					UseProtoNames:   true,
+					UseEnumNumbers:  true,
 				},
 				UnmarshalOptions: protojson.UnmarshalOptions{
 					DiscardUnknown: true,
 				},
 			},
-		}))
+		}),
+		runtime.WithForwardResponseOption(func(ctx context.Context, w http.ResponseWriter, resp proto.Message) error {
+			log.Printf("Response: %+v", resp)
+			return nil
+		}),
+	)
 
 	// Register grpc handler
 	grpc.RegisterTaskGrpcHandler(mux)
