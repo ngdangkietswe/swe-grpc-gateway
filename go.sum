@@ -74,13 +74,8 @@ github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd h1:TRLaZ9cD/w
 github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd/go.mod h1:6dJC0mAP4ikYIbvyc7fijjWJddQyLn8Ig3JB5CqoB9Q=
 github.com/modern-go/reflect2 v1.0.2 h1:xBagoLtFs94CBntxluKeaWgTMpvLxC4ur3nMaC9Gz0M=
 github.com/modern-go/reflect2 v1.0.2/go.mod h1:yWuevngMOJpCy52FWWMvUC8ws7m/LJsjYzDa0/r8luk=
-<<<<<<< Updated upstream
-github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20241228081125-bb5d18bfb3ca h1:FHzfbUs87lYi6hEQbkN8CD+ebIhqLyyEM7VRB5W4DIw=
-github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20241228081125-bb5d18bfb3ca/go.mod h1:YTTt1JLSCtOaf75+uEc1Nko2BMvCbkG1WDM68+01RTI=
-=======
 github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20241230031730-701340497196 h1:olhQVQg3J0g+StumZ+hXGIX51j8ljqPdPghjYrrmlro=
 github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20241230031730-701340497196/go.mod h1:QTac9z2Pz8PdjcPQvnJxMc7rWyExwFE4vBa2Zofh3hA=
->>>>>>> Stashed changes
 github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20241229170805-4dafc661568b h1:u0nahwSoaRz6OcAR9yfVk0AuuBfimt96bm9J3Y+xl7g=
 github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20241229170805-4dafc661568b/go.mod h1:BJM2Kr7cIUwRc8lpRIlIC1T4diAlfr8ryVOV+NT5A5U=
 github.com/pelletier/go-toml/v2 v2.2.2 h1:aYUidT7k73Pcl9nb2gScu7NSrKCSHIDE89b3+6Wq+LM=
