@@ -3,9 +3,9 @@ package servers
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/ngdangkietswe/swe-gateway-service/cache"
 	"github.com/ngdangkietswe/swe-gateway-service/servers/middleware"
 	"github.com/ngdangkietswe/swe-gateway-service/servers/route"
+	"github.com/ngdangkietswe/swe-go-common-shared/cache"
 	"github.com/ngdangkietswe/swe-go-common-shared/config"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
