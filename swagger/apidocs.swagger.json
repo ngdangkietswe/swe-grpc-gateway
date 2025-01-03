@@ -899,13 +899,13 @@
     "authChangePasswordReq": {
       "type": "object",
       "properties": {
-        "oldPassword": {
+        "old_password": {
           "type": "string"
         },
-        "newPassword": {
+        "new_password": {
           "type": "string"
         },
-        "confirmPassword": {
+        "confirm_password": {
           "type": "string"
         }
       }
