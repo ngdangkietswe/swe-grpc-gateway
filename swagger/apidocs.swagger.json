@@ -15,6 +15,9 @@
       "name": "PermissionService"
     },
     {
+      "name": "StravaService"
+    },
+    {
       "name": "StorageService"
     },
     {
@@ -929,6 +932,68 @@
           "TaskService"
         ]
       }
+    },
+    "/v1/strava/account": {
+      "get": {
+        "operationId": "StravaService_GetStravaAccount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/integrationGetStravaAccountResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "StravaService"
+        ]
+      }
+    },
+    "/v1/strava/integrate": {
+      "post": {
+        "operationId": "StravaService_IntegrateStravaAccount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/commonEmptyResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/integrationIntegrateStravaAccountReq"
+            }
+          }
+        ],
+        "tags": [
+          "StravaService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -1348,6 +1413,69 @@
             "type": "object",
             "$ref": "#/definitions/protobufAny"
           }
+        }
+      }
+    },
+    "integrationGetStravaAccountResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "strava_account": {
+          "$ref": "#/definitions/integrationStravaAccount"
+        },
+        "error": {
+          "$ref": "#/definitions/commonError"
+        }
+      }
+    },
+    "integrationIntegrateStravaAccountReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        }
+      }
+    },
+    "integrationStravaAccount": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "access_token": {
+          "type": "string"
+        },
+        "refresh_token": {
+          "type": "string"
+        },
+        "expires_at": {
+          "type": "string"
+        },
+        "token_type": {
+          "type": "string"
+        },
+        "athlete_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
         }
       }
     },
