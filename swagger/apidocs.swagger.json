@@ -1001,7 +1001,8 @@
       "type": "object",
       "properties": {
         "athlete_id": {
-          "type": "string"
+          "type": "string",
+          "format": "int64"
         },
         "username": {
           "type": "string"
@@ -1493,7 +1494,8 @@
           "type": "string"
         },
         "athlete_id": {
-          "type": "string"
+          "type": "string",
+          "format": "int64"
         },
         "username": {
           "type": "string"
