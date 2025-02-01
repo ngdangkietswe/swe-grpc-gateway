@@ -7,8 +7,8 @@ toolchain go1.22.9
 require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.23.0
-	github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20250127091543-13837bc9a014
-	github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250201065633-5c05f90011c4
+	github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20250201080741-ceed20045b39
+	github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250201174857-b792276f64e2
 	google.golang.org/grpc v1.68.0
 	google.golang.org/protobuf v1.35.2
 )
