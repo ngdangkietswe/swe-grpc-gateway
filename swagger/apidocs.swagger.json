@@ -997,6 +997,36 @@
     }
   },
   "definitions": {
+    "IntegrateStravaAccountReqStrava": {
+      "type": "object",
+      "properties": {
+        "athlete_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "profile": {
+          "type": "string"
+        },
+        "access_token": {
+          "type": "string"
+        },
+        "refresh_token": {
+          "type": "string"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
     "authAction": {
       "type": "object",
       "properties": {
@@ -1435,6 +1465,9 @@
       "properties": {
         "user_id": {
           "type": "string"
+        },
+        "strava": {
+          "$ref": "#/definitions/IntegrateStravaAccountReqStrava"
         }
       }
     },
