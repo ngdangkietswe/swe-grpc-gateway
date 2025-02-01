@@ -35,8 +35,9 @@ func RegisterGrpcGateway(router *gin.Engine) {
 		runtime.WithMetadata(func(ctx context.Context, req *http.Request) metadata.MD {
 			md := metadata.Pairs()
 			for key, values := range req.Header {
-				if strings.HasPrefix(strings.ToLower(key), "grpc-") {
-					md.Append(strings.ToLower(key), values...)
+				lowerKey := strings.ToLower(key)
+				if lowerKey == "authorization" || lowerKey == "x-api-key" || strings.HasPrefix(lowerKey, "grpc-") {
+					md.Append(lowerKey, values...)
 				}
 			}
 			return md
@@ -63,6 +64,7 @@ func RegisterGrpcGateway(router *gin.Engine) {
 	grpc.RegisterTaskGrpcHandler(mux)
 	grpc.RegisterAuthGrpcHandler(mux)
 	grpc.RegisterStorageGrpcHandler(mux)
+	grpc.RegisterIntegrationGrpcHandler(mux)
 
 	router.Any("/api/v1/*any", gin.WrapH(mux))
 }
