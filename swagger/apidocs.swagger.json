@@ -654,6 +654,108 @@
         ]
       }
     },
+    "/api/v1/strava/activities": {
+      "get": {
+        "operationId": "StravaService_GetStravaActivities",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/integrationGetStravaActivitiesResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "enum": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              24,
+              25,
+              26,
+              27,
+              28,
+              29,
+              30
+            ],
+            "default": 0
+          },
+          {
+            "name": "pageable.page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageable.size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageable.sort",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageable.direction",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageable.un_paged",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "pageable.search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "StravaService"
+        ]
+      }
+    },
     "/api/v1/strava/integrate": {
       "post": {
         "operationId": "StravaService_IntegrateStravaAccount",
@@ -678,6 +780,38 @@
             "required": true,
             "schema": {
               "$ref": "#/definitions/integrationIntegrateStravaAccountReq"
+            }
+          }
+        ],
+        "tags": [
+          "StravaService"
+        ]
+      }
+    },
+    "/api/v1/strava/sync": {
+      "post": {
+        "operationId": "StravaService_SyncStravaActivities",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/commonEmptyResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/commonEmptyReq"
             }
           }
         ],
@@ -1311,6 +1445,9 @@
         }
       }
     },
+    "commonEmptyReq": {
+      "type": "object"
+    },
     "commonEmptyResp": {
       "type": "object",
       "properties": {
@@ -1461,6 +1598,35 @@
         }
       }
     },
+    "integrationGetStravaActivitiesResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "$ref": "#/definitions/integrationGetStravaActivitiesRespData"
+        },
+        "error": {
+          "$ref": "#/definitions/commonError"
+        }
+      }
+    },
+    "integrationGetStravaActivitiesRespData": {
+      "type": "object",
+      "properties": {
+        "activities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/integrationStravaActivity"
+          }
+        },
+        "page_meta_data": {
+          "$ref": "#/definitions/commonPageMetaData"
+        }
+      }
+    },
     "integrationIntegrateStravaAccountReq": {
       "type": "object",
       "properties": {
@@ -1513,6 +1679,100 @@
           "type": "string"
         }
       }
+    },
+    "integrationStravaActivity": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "string"
+        },
+        "strava_activity_id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "activity_name": {
+          "type": "string"
+        },
+        "activity_type": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "activity_url": {
+          "type": "string"
+        },
+        "start_date": {
+          "type": "string"
+        },
+        "distance": {
+          "type": "number",
+          "format": "double"
+        },
+        "moving_time": {
+          "type": "string"
+        },
+        "elapsed_time": {
+          "type": "string"
+        },
+        "total_elevation_gain": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "average_speed": {
+          "type": "number",
+          "format": "double"
+        },
+        "max_speed": {
+          "type": "number",
+          "format": "double"
+        },
+        "pace": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        }
+      }
+    },
+    "integrationStravaActivityType": {
+      "type": "integer",
+      "format": "int32",
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ],
+      "default": 0
     },
     "protobufAny": {
       "type": "object",

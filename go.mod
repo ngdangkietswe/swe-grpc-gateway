@@ -1,19 +1,20 @@
 module github.com/ngdangkietswe/swe-gateway-service
 
-go 1.22.7
+go 1.23.0
 
-toolchain go1.22.9
+toolchain go1.23.6
 
 require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.23.0
-	github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20250201080741-ceed20045b39
-	github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250201174857-b792276f64e2
+	github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20250217035017-107264eeb506
+	github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250218163034-6fbf0efbe5ea
 	google.golang.org/grpc v1.68.0
 	google.golang.org/protobuf v1.35.2
 )
 
 require (
+	entgo.io/ent v0.14.1 // indirect
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
