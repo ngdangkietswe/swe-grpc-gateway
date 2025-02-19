@@ -788,6 +788,28 @@
         ]
       }
     },
+    "/api/v1/strava/remove": {
+      "delete": {
+        "operationId": "StravaService_RemoveStravaAccount",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/commonEmptyResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "StravaService"
+        ]
+      }
+    },
     "/api/v1/strava/sync": {
       "post": {
         "operationId": "StravaService_SyncStravaActivities",
@@ -1688,6 +1710,10 @@
         },
         "user_id": {
           "type": "string"
+        },
+        "athlete_id": {
+          "type": "string",
+          "format": "int64"
         },
         "strava_activity_id": {
           "type": "string",
