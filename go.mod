@@ -8,7 +8,7 @@ require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.23.0
 	github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20250217035017-107264eeb506
-	github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250219203007-37dfb6140ac6
+	github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250219205737-ca5a2d0bbd72
 	google.golang.org/grpc v1.68.0
 	google.golang.org/protobuf v1.35.2
 )

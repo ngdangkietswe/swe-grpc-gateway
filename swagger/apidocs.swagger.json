@@ -1733,8 +1733,7 @@
           "type": "string"
         },
         "distance": {
-          "type": "number",
-          "format": "double"
+          "type": "string"
         },
         "moving_time": {
           "type": "string"
