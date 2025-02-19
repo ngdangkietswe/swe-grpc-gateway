@@ -1743,8 +1743,8 @@
           "type": "string"
         },
         "total_elevation_gain": {
-          "type": "integer",
-          "format": "int32"
+          "type": "number",
+          "format": "double"
         },
         "average_speed": {
           "type": "number",

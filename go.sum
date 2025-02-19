@@ -83,8 +83,8 @@ github.com/modern-go/reflect2 v1.0.2 h1:xBagoLtFs94CBntxluKeaWgTMpvLxC4ur3nMaC9G
 github.com/modern-go/reflect2 v1.0.2/go.mod h1:yWuevngMOJpCy52FWWMvUC8ws7m/LJsjYzDa0/r8luk=
 github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20250217035017-107264eeb506 h1:M8VI3RveI2tT9deFreyWlZFoRinLeBy5vytsvbNGhVo=
 github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20250217035017-107264eeb506/go.mod h1:WG4vjJSQq54P+n6VfyZ6cHED8wAtdNNdzlvI1JejToo=
-github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250219025212-78c8c58168ed h1:CY+cqyNENHEJXsctV3PB1KAzqwMU7h8wlptpozZDx4Q=
-github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250219025212-78c8c58168ed/go.mod h1:BJM2Kr7cIUwRc8lpRIlIC1T4diAlfr8ryVOV+NT5A5U=
+github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250219203007-37dfb6140ac6 h1:f4wM7L78n1H7MTI5hXZWb7fBGzN+Oj9NaF5ySjlB1Qo=
+github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250219203007-37dfb6140ac6/go.mod h1:BJM2Kr7cIUwRc8lpRIlIC1T4diAlfr8ryVOV+NT5A5U=
 github.com/pelletier/go-toml/v2 v2.2.2 h1:aYUidT7k73Pcl9nb2gScu7NSrKCSHIDE89b3+6Wq+LM=
 github.com/pelletier/go-toml/v2 v2.2.2/go.mod h1:1t835xjRzz80PqgE6HHgN2JOsmgYu/h4qDAS4n929Rs=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
