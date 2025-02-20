@@ -81,10 +81,10 @@ github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd h1:TRLaZ9cD/w
 github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd/go.mod h1:6dJC0mAP4ikYIbvyc7fijjWJddQyLn8Ig3JB5CqoB9Q=
 github.com/modern-go/reflect2 v1.0.2 h1:xBagoLtFs94CBntxluKeaWgTMpvLxC4ur3nMaC9Gz0M=
 github.com/modern-go/reflect2 v1.0.2/go.mod h1:yWuevngMOJpCy52FWWMvUC8ws7m/LJsjYzDa0/r8luk=
-github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20250217035017-107264eeb506 h1:M8VI3RveI2tT9deFreyWlZFoRinLeBy5vytsvbNGhVo=
-github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20250217035017-107264eeb506/go.mod h1:WG4vjJSQq54P+n6VfyZ6cHED8wAtdNNdzlvI1JejToo=
-github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250219205737-ca5a2d0bbd72 h1:T/ePTzoVr6nLLiGafm6CqGWtds79OZqwXgW6IFfSC+g=
-github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250219205737-ca5a2d0bbd72/go.mod h1:BJM2Kr7cIUwRc8lpRIlIC1T4diAlfr8ryVOV+NT5A5U=
+github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20250220162130-7a1afd49cac2 h1:k78p9fnfgS8WuHd6aXDBnhMCH6HrNOtXVS13hiljLKs=
+github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20250220162130-7a1afd49cac2/go.mod h1:TMZ61wChkUABLLWIACWtDnBN+pBrS2jR+NnEiVc663Q=
+github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250220162907-f389363fc532 h1:BCs8pzb/kMxmRSxLiGM/ed5klHyjHPuaTSz4DIvrSn8=
+github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250220162907-f389363fc532/go.mod h1:BJM2Kr7cIUwRc8lpRIlIC1T4diAlfr8ryVOV+NT5A5U=
 github.com/pelletier/go-toml/v2 v2.2.2 h1:aYUidT7k73Pcl9nb2gScu7NSrKCSHIDE89b3+6Wq+LM=
 github.com/pelletier/go-toml/v2 v2.2.2/go.mod h1:1t835xjRzz80PqgE6HHgN2JOsmgYu/h4qDAS4n929Rs=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
