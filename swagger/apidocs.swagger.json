@@ -1303,77 +1303,6 @@
         ]
       }
     },
-    "/api/v1/time-trackings/overtime": {
-      "post": {
-        "operationId": "TimeTrackingService_Overtime",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/commonUpsertResp"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/timetrackingOverTimeReq"
-            }
-          }
-        ],
-        "tags": [
-          "TimeTrackingService"
-        ]
-      }
-    },
-    "/api/v1/time-trackings/overtime/{id}/approve": {
-      "post": {
-        "operationId": "TimeTrackingService_ApproveOvertime",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/commonEmptyResp"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "id",
-            "description": "overtime id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/TimeTrackingServiceApproveOvertimeBody"
-            }
-          }
-        ],
-        "tags": [
-          "TimeTrackingService"
-        ]
-      }
-    },
     "/api/v1/time-trackings/{id}": {
       "get": {
         "operationId": "TimeTrackingService_GetTimeTracking",
@@ -1403,6 +1332,84 @@
             "in": "query",
             "required": false,
             "type": "string"
+          }
+        ],
+        "tags": [
+          "TimeTrackingService"
+        ]
+      }
+    },
+    "/api/v1/time-trackings/{id}/overtime": {
+      "post": {
+        "operationId": "TimeTrackingService_Overtime",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/commonUpsertResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "time tracking id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TimeTrackingServiceOvertimeBody"
+            }
+          }
+        ],
+        "tags": [
+          "TimeTrackingService"
+        ]
+      }
+    },
+    "/api/v1/time-trackings/{id}/overtime/approve": {
+      "post": {
+        "operationId": "TimeTrackingService_ApproveOvertime",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/commonEmptyResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "description": "time tracking id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TimeTrackingServiceApproveOvertimeBody"
+            }
           }
         ],
         "tags": [
@@ -1450,6 +1457,24 @@
           "type": "boolean"
         },
         "reason": {
+          "type": "string"
+        }
+      }
+    },
+    "TimeTrackingServiceOvertimeBody": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "overtime_hours": {
+          "type": "number",
+          "format": "double"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "approver_id": {
           "type": "string"
         }
       }
@@ -2483,27 +2508,6 @@
         }
       }
     },
-    "timetrackingOverTimeReq": {
-      "type": "object",
-      "properties": {
-        "user_id": {
-          "type": "string"
-        },
-        "time_tracking_id": {
-          "type": "string"
-        },
-        "overtime_hours": {
-          "type": "number",
-          "format": "double"
-        },
-        "reason": {
-          "type": "string"
-        },
-        "approver_id": {
-          "type": "string"
-        }
-      }
-    },
     "timetrackingTimeTracking": {
       "type": "object",
       "properties": {
@@ -2531,6 +2535,17 @@
         "overtime_hours": {
           "type": "number",
           "format": "double"
+        },
+        "latitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "location": {
+          "type": "string"
         },
         "audit": {
           "$ref": "#/definitions/commonAudit"
