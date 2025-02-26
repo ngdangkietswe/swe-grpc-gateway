@@ -1214,7 +1214,7 @@
         ]
       }
     },
-    "/v1/time-trackings": {
+    "/api/v1/time-trackings": {
       "get": {
         "operationId": "TimeTrackingService_GetListTimeTracking",
         "responses": {
@@ -1271,7 +1271,7 @@
         ]
       }
     },
-    "/v1/time-trackings/check-in": {
+    "/api/v1/time-trackings/check-in": {
       "post": {
         "operationId": "TimeTrackingService_CheckIn",
         "responses": {
@@ -1303,7 +1303,7 @@
         ]
       }
     },
-    "/v1/time-trackings/check-out": {
+    "/api/v1/time-trackings/check-out": {
       "post": {
         "operationId": "TimeTrackingService_CheckOut",
         "responses": {
@@ -1335,7 +1335,7 @@
         ]
       }
     },
-    "/v1/time-trackings/overtime": {
+    "/api/v1/time-trackings/overtime": {
       "post": {
         "operationId": "TimeTrackingService_Overtime",
         "responses": {
@@ -1367,7 +1367,7 @@
         ]
       }
     },
-    "/v1/time-trackings/overtime/{id}/approve": {
+    "/api/v1/time-trackings/overtime/{id}/approve": {
       "post": {
         "operationId": "TimeTrackingService_ApproveOvertime",
         "responses": {
@@ -1406,7 +1406,7 @@
         ]
       }
     },
-    "/v1/time-trackings/{id}": {
+    "/api/v1/time-trackings/{id}": {
       "get": {
         "operationId": "TimeTrackingService_GetTimeTracking",
         "responses": {
