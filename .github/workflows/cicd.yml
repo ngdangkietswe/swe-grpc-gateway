@@ -45,8 +45,8 @@ jobs:
 
       - name: Commit and push changes
         run: |
-          git config --global user.name "ngdangkietse"
-          git config --global user.email "kietnguyen17052001@gmail.com"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
           if [ -n "$(git status -s)" ]; then
             git status
             git add .
