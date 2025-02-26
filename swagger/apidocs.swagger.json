@@ -1456,6 +1456,10 @@
         "is_approved": {
           "type": "boolean"
         },
+        "overtime_hours": {
+          "type": "number",
+          "format": "double"
+        },
         "reason": {
           "type": "string"
         }
