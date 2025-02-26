@@ -1271,9 +1271,9 @@
         ]
       }
     },
-    "/api/v1/time-trackings/check-in": {
+    "/api/v1/time-trackings/check-in-out": {
       "post": {
-        "operationId": "TimeTrackingService_CheckIn",
+        "operationId": "TimeTrackingService_CheckInOut",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -1294,39 +1294,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/timetrackingCheckInReq"
-            }
-          }
-        ],
-        "tags": [
-          "TimeTrackingService"
-        ]
-      }
-    },
-    "/api/v1/time-trackings/check-out": {
-      "post": {
-        "operationId": "TimeTrackingService_CheckOut",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/timetrackingCheckInOutResp"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/googlerpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/timetrackingCheckOutReq"
+              "$ref": "#/definitions/timetrackingCheckInOutReq"
             }
           }
         ],
@@ -2428,6 +2396,19 @@
         }
       }
     },
+    "timetrackingCheckInOutReq": {
+      "type": "object",
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "format": "double"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
     "timetrackingCheckInOutResp": {
       "type": "object",
       "properties": {
@@ -2459,22 +2440,6 @@
         },
         "status": {
           "$ref": "#/definitions/timetrackingTimeTrackingStatus"
-        }
-      }
-    },
-    "timetrackingCheckInReq": {
-      "type": "object",
-      "properties": {
-        "date": {
-          "type": "string"
-        }
-      }
-    },
-    "timetrackingCheckOutReq": {
-      "type": "object",
-      "properties": {
-        "date": {
-          "type": "string"
         }
       }
     },
