@@ -2469,6 +2469,9 @@
         },
         "status": {
           "$ref": "#/definitions/timetrackingTimeTrackingStatus"
+        },
+        "location": {
+          "type": "string"
         }
       }
     },
