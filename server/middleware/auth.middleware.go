@@ -10,18 +10,21 @@ import (
 	"github.com/ngdangkietswe/swe-go-common-shared/config"
 	"github.com/ngdangkietswe/swe-go-common-shared/constants"
 	"github.com/ngdangkietswe/swe-go-common-shared/domain"
+	"github.com/ngdangkietswe/swe-go-common-shared/logger"
 	"github.com/ngdangkietswe/swe-go-common-shared/util"
 	"github.com/ngdangkietswe/swe-protobuf-shared/generated/auth"
 	"github.com/ngdangkietswe/swe-protobuf-shared/generated/common"
+	"github.com/samber/lo"
+	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
-	"log"
 	"net/http"
 	"strings"
 	"time"
 )
 
 type AuthMiddleware struct {
+	logger   *logger.Logger
 	authConn *grpc.ClientConn
 	cache    *cache.RedisCache
 }
@@ -99,29 +102,28 @@ func (a AuthMiddleware) getAndCacheUserPermission(ctx context.Context, userId st
 
 	cacheKey := fmt.Sprintf("%s_%s", constants.UserPermissionCacheKeyPrefix, userId)
 	if err := a.cache.Get(cacheKey, &userPermission); err != nil {
-		log.Printf("Error getting user permission from cache: %v", err)
+		a.logger.Info("User permission not found in cache, getting from auth service", zap.String("error", err.Error()))
+
 		authClient := auth.NewPermissionInternalServiceClient(a.authConn)
 
-		permissionOfUserResp, err = authClient.PermissionOfUser(ctx, &common.IdReq{
-			Id: userId,
-		})
-		if err != nil {
-			log.Printf("Error getting user permission: %v", err)
+		if permissionOfUserResp, err = authClient.PermissionOfUser(ctx, &common.IdReq{Id: userId}); err != nil {
+			a.logger.Error("Failed to get user permission from auth service", zap.String("error", err.Error()))
 			return nil, err
 		}
 
-		for _, permission := range permissionOfUserResp.GetData().Permissions {
+		lo.ForEach(permissionOfUserResp.GetData().Permissions, func(permission *auth.Permission, _ int) {
 			permissions = append(permissions, &domain.Permission{
 				Action:   permission.Action.Name,
 				Resource: permission.Resource.Name,
 			})
-		}
+		})
 
 		userPermission = &domain.UserPermission{
 			Permissions: permissions,
 		}
 
 		if err = a.cache.Set(cacheKey, userPermission, 30*time.Minute); err != nil {
+			a.logger.Error("Failed to cache user permission", zap.String("error", err.Error()))
 			return nil, err
 		}
 	}
@@ -141,9 +143,11 @@ func (a AuthMiddleware) AsMiddleware() gin.HandlerFunc {
 }
 
 func NewAuthMiddleware(
+	logger *logger.Logger,
 	authConn *grpc.ClientConn,
 	cache *cache.RedisCache) Middleware {
 	return &AuthMiddleware{
+		logger:   logger,
 		authConn: authConn,
 		cache:    cache,
 	}

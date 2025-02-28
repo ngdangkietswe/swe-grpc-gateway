@@ -1,13 +1,16 @@
 package logger
 
-import "github.com/ngdangkietswe/swe-go-common-shared/logger"
+import (
+	"github.com/ngdangkietswe/swe-go-common-shared/logger"
+	"go.uber.org/fx"
+)
 
 func NewZapLogger() (*logger.Logger, error) {
 	instance, err := logger.NewLogger(
 		"swe-gateway-service",
 		"local",
 		"debug",
-		"logs/swe-gateway-service.log",
+		"",
 	)
 
 	if err != nil {
@@ -16,3 +19,5 @@ func NewZapLogger() (*logger.Logger, error) {
 
 	return instance, nil
 }
+
+var Module = fx.Provide(NewZapLogger)
