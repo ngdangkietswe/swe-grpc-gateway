@@ -10,8 +10,8 @@ require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/uuid v1.6.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.23.0
-	github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20250223145806-6fff2da6ef30
-	github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250227113454-7c4f156f3a57
+	github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20250304131129-8c8e8e925cbf
+	github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250510151533-5c9d97b7074c
 	github.com/samber/lo v1.47.0
 	github.com/ulule/limiter/v3 v3.11.2
 	go.uber.org/fx v1.23.0
@@ -61,11 +61,11 @@ require (
 	go.uber.org/dig v1.18.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/arch v0.12.0 // indirect
-	golang.org/x/crypto v0.31.0 // indirect
+	golang.org/x/crypto v0.33.0 // indirect
 	golang.org/x/exp v0.0.0-20230905200255-921286631fa9 // indirect
-	golang.org/x/net v0.33.0 // indirect
+	golang.org/x/net v0.35.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
-	golang.org/x/text v0.21.0 // indirect
+	golang.org/x/text v0.22.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20241021214115-324edc3d5d38 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20241021214115-324edc3d5d38 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect

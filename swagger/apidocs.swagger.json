@@ -28,6 +28,9 @@
     },
     {
       "name": "TimeTrackingService"
+    },
+    {
+      "name": "WorkflowService"
     }
   ],
   "consumes": [
@@ -1416,6 +1419,120 @@
           "TimeTrackingService"
         ]
       }
+    },
+    "/api/v1/workflows": {
+      "get": {
+        "operationId": "WorkflowService_GetListWorkflow",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/workflowGetListWorkflowResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageable.page",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageable.size",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageable.sort",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageable.direction",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pageable.un_paged",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "pageable.search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "module",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "enum": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "default": 0
+          }
+        ],
+        "tags": [
+          "WorkflowService"
+        ]
+      }
+    },
+    "/api/v1/workflows/{id}": {
+      "get": {
+        "operationId": "WorkflowService_GetWorkflow",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/workflowGetWorkflowResp"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/googlerpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "WorkflowService"
+        ]
+      }
     }
   },
   "definitions": {
@@ -1811,6 +1928,20 @@
           }
         }
       }
+    },
+    "commonModule": {
+      "type": "integer",
+      "format": "int32",
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "default": 0
     },
     "commonPageMetaData": {
       "type": "object",
@@ -2571,6 +2702,136 @@
         5
       ],
       "default": 0
+    },
+    "workflowGetListWorkflowResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "data": {
+          "$ref": "#/definitions/workflowGetListWorkflowRespData"
+        },
+        "error": {
+          "$ref": "#/definitions/commonError"
+        }
+      }
+    },
+    "workflowGetListWorkflowRespData": {
+      "type": "object",
+      "properties": {
+        "workflows": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/workflowWorkflow"
+          }
+        }
+      }
+    },
+    "workflowGetWorkflowResp": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "workflow": {
+          "$ref": "#/definitions/workflowWorkflow"
+        },
+        "error": {
+          "$ref": "#/definitions/commonError"
+        }
+      }
+    },
+    "workflowState": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "workflow_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "hex_color": {
+          "type": "string"
+        },
+        "is_initial": {
+          "type": "boolean"
+        },
+        "is_final": {
+          "type": "boolean"
+        },
+        "order_no": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "workflowTransition": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "workflow_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "source_state_id": {
+          "type": "string"
+        },
+        "target_state_id": {
+          "type": "string"
+        },
+        "condition_expr": {
+          "type": "string"
+        }
+      }
+    },
+    "workflowWorkflow": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "module": {
+          "$ref": "#/definitions/commonModule"
+        },
+        "is_default": {
+          "type": "boolean"
+        },
+        "states": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/workflowState"
+          }
+        },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/workflowTransition"
+          }
+        }
+      }
     }
   }
 }
