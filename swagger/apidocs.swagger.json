@@ -2726,6 +2726,9 @@
             "type": "object",
             "$ref": "#/definitions/workflowWorkflow"
           }
+        },
+        "page_meta_data": {
+          "$ref": "#/definitions/commonPageMetaData"
         }
       }
     },
