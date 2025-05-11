@@ -11,7 +11,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.23.0
 	github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20250304131129-8c8e8e925cbf
-	github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250511063651-5277fcb36e27
+	github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250511081306-2b671d7374b4
 	github.com/samber/lo v1.47.0
 	github.com/ulule/limiter/v3 v3.11.2
 	go.uber.org/fx v1.23.0
