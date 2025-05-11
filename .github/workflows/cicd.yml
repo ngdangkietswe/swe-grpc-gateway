@@ -127,7 +127,7 @@ jobs:
           DOCKER_BUILDKIT: 1 # Enable BuildKit for faster builds
 
       - name: Verify Docker Push
-        run:
+        run: |
           echo "✅ Docker image pushed: ${{ env.IMAGE_NAME }}:${{ steps.build_image.outputs.image_tag }}"
 
   modify-k8s:
