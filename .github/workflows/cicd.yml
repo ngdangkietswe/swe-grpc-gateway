@@ -66,7 +66,7 @@ jobs:
         shell: bash
 
       - name: Commit and Push Changes
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || github.event_name == 'repository_dispatch' && github.event.action == 'trigger-swe-grpc-gateway'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
