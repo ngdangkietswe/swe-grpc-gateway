@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# build.sh: Script to update dependencies
+# build.sh: Script to update dependencies and vendor them properly
 
 set -euo pipefail
 
@@ -25,14 +25,23 @@ check_writable() {
     fi
 }
 
-# Update Go dependencies
+# Update Go dependencies with forced update
 update_dependencies() {
     log "INFO" "Checking and updating dependencies..."
 
-    # Fetch specific versions in parallel (replace @main with @vX.Y.Z or @commit-hash if needed)
-    GOPROXY=direct go get github.com/ngdangkietswe/swe-protobuf-shared@main &
-    GOPROXY=direct go get github.com/ngdangkietswe/swe-go-common-shared@main &
+    # Clean Go mod cache to avoid stale modules
+    log "INFO" "Cleaning module cache..."
+    go clean -modcache
+
+    # Fetch the latest version forcefully
+    log "INFO" "Fetching latest versions of required modules..."
+    go get -u github.com/ngdangkietswe/swe-protobuf-shared@latest &
+    go get -u github.com/ngdangkietswe/swe-go-common-shared@latest &
     wait || handle_error "Failed to update dependencies"
+
+    # Ensure the module is actually used
+    log "INFO" "Checking if module is used..."
+    go mod why github.com/ngdangkietswe/swe-go-common-shared || log "WARNING" "Module not used directly in code."
 
     # Tidy modules
     log "INFO" "Tidying Go modules..."
@@ -49,7 +58,12 @@ update_dependencies() {
     log "INFO" "Vendoring dependencies..."
     go mod vendor -v || handle_error "Failed to vendor Go modules"
 
-    log "INFO" "Dependencies updated and vendored successfully!"
+    # Confirm vendor content
+    if [ -d "vendor/github.com/ngdangkietswe/swe-go-common-shared" ]; then
+        log "INFO" "✅ Module 'swe-go-common-shared' vendored successfully!"
+    else
+        log "WARNING" "⚠ Module 'swe-go-common-shared' not found in vendor! Ensure it is imported in the code."
+    fi
 }
 
 # Main execution
