@@ -41,7 +41,8 @@ update_dependencies() {
 
     # Ensure the module is actually used
     log "INFO" "Checking if module is used..."
-    go mod why github.com/ngdangkietswe/swe-go-common-shared || log "WARNING" "Module not used directly in code."
+    go mod why github.com/ngdangkietswe/swe-go-common-shared || log "WARNING" "Module common not used directly in code."
+    go mod why github.com/ngdangkietswe/swe-protobuf-shared || log "WARNING" "Module protobuf not used directly in code."
 
     # Tidy modules
     log "INFO" "Tidying Go modules..."
@@ -59,10 +60,18 @@ update_dependencies() {
     go mod vendor -v || handle_error "Failed to vendor Go modules"
 
     # Confirm vendor content
+    # Check for swe-go-common-shared
     if [ -d "vendor/github.com/ngdangkietswe/swe-go-common-shared" ]; then
         log "INFO" "✅ Module 'swe-go-common-shared' vendored successfully!"
     else
         log "WARNING" "⚠ Module 'swe-go-common-shared' not found in vendor! Ensure it is imported in the code."
+    fi
+
+    # Check for swe-protobuf-shared
+    if [ -d "vendor/github.com/ngdangkietswe/swe-protobuf-shared" ]; then
+        log "INFO" "✅ Module 'swe-protobuf-shared' vendored successfully!"
+    else
+        log "WARNING" "⚠ Module 'swe-protobuf-shared' not found in vendor! Ensure it is imported in the code."
     fi
 }
 
