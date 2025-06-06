@@ -10,7 +10,7 @@ require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/google/uuid v1.6.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.23.0
-	github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20250529153341-4ccac738607e
+	github.com/ngdangkietswe/swe-go-common-shared v0.0.0-20250531043739-eb8bbf8956bb
 	github.com/ngdangkietswe/swe-protobuf-shared v0.0.0-20250511083322-48ff091ec8c9
 	github.com/samber/lo v1.47.0
 	github.com/ulule/limiter/v3 v3.11.2
