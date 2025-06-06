@@ -158,10 +158,10 @@ jobs:
           IMAGE_TAG=${{ needs.build-and-push.outputs.IMAGE_TAG }}
 
           # Modify the deployment files
-          sed -i "s|image: $IMAGE_NAME:.*|image: $IMAGE_NAME:$IMAGE_TAG|" k8s/swe-notification-service/deployment.yml
+          sed -i "s|image: $IMAGE_NAME:.*|image: $IMAGE_NAME:$IMAGE_TAG|" k8s/swe-gateway-service/deployment.yml
 
           git add .
-          git commit -m "chore(swe-notification-service): update image tag to $IMAGE_TAG"
+          git commit -m "chore(swe-gateway-service): update image tag to $IMAGE_TAG"
           git push origin main
 
           echo "✅ Kubernetes deployment files updated successfully."
