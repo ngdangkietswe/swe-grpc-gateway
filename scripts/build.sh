@@ -3,6 +3,7 @@
 # build.sh: Script to update dependencies and vendor them properly
 
 set -euo pipefail
+SECONDS=0  # Track total build time
 
 # Logging function
 log() {
@@ -85,7 +86,8 @@ main() {
 
     update_dependencies
 
-    log "INFO" "Build script completed successfully!"
+    duration=$SECONDS
+    log "INFO" "Build completed in $((duration / 60)) minute(s) and $((duration % 60)) second(s)"
 }
 
 main

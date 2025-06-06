@@ -13,8 +13,8 @@ import (
 
 func RegisterTimeTrackingGrpcHandler(mux *runtime.ServeMux) {
 	grpcTimeTrackingAddress := fmt.Sprintf("%s:%d",
-		config.GetString("GRPC_TIME_TRACKING_HOST", "localhost"),
-		config.GetInt("GRPC_TIME_TRACKING_PORT", 7050),
+		config.GetString("GRPC_TIMETRACKING_HOST", "localhost"),
+		config.GetInt("GRPC_TIMETRACKING_PORT", 7050),
 	)
 
 	dialOptions := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
